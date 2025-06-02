@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Yeni Kargo Ekle</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      margin-bottom: 1.5rem;
+      color: #1f2937;
+    }
+
+    form {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 480px;
+      box-sizing: border-box;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    input[type="text"],
+    input[type="datetime-local"] {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="datetime-local"]:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 5px rgba(37, 99, 235, 0.5);
+    }
+
+    button {
+      background-color: #2563eb;
+      color: white;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    .mesaj {
+      max-width: 480px;
+      margin-bottom: 1.5rem;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .hata-mesaji {
+      background-color: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+    }
+
+    .basari-mesaji {
+      background-color: #d1fae5;
+      color: #065f46;
+      border: 1px solid #34d399;
+    }
+
+    .link-container {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .link-container a {
+      background-color: #2563eb;
+      color: white;
+      padding: 10px 25px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+
+    .link-container a:hover {
+      background-color: #1e40af;
+    }
+  </style>
+</head>
+<body>
+  <h1>Yeni Kargo Ekle</h1>
+
+  <% if (typeof hata !== 'undefined' && hata) { %>
+    <div class="mesaj hata-mesaji"><%= hata %></div>
+  <% } %>
+
+  <% if (typeof basari !== 'undefined' && basari) { %>
+    <div class="mesaj basari-mesaji"><%= basari %></div>
+  <% } %>
+
+  <form action="/kargo-ekle" method="POST">
+    <label>Takip No:</label>
+    <input 
+      type="text" 
+      name="takip_no" 
+      value="<%= typeof takip_no !== 'undefined' ? takip_no : '' %>" 
+      required 
+      minlength="11" 
+      maxlength="11" 
+      pattern="\d{11}" 
+      title="Takip numarası 11 rakamdan oluşmalıdır"
+    />
+
+    <label>Gönderen:</label>
+    <input type="text" name="gonderen" value="<%= typeof gonderen !== 'undefined' ? gonderen : '' %>" required />
+
+    <label>Alıcı:</label>
+    <input type="text" name="alici" value="<%= typeof alici !== 'undefined' ? alici : '' %>" required />
+
+    <label>Durum:</label>
+    <input type="text" name="durum" value="<%= typeof durum !== 'undefined' ? durum : '' %>" required />
+
+    <label>Tarih (isteğe bağlı):</label>
+    <input type="datetime-local" name="tarih" value="<%= typeof tarih !== 'undefined' ? tarih : '' %>" />
+
+    <button type="submit">Kargo Ekle</button>
+  </form>
+
+  <div class="link-container">
+    <a href="/admin">Admin Paneline Dön</a>
+  </div>
+  
+</body>
+</html>

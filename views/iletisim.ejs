@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>İletişim | Uzçirci Kargo</title>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    .contact-container {
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 30px 20px;
+      background-color: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border-radius: 10px;
+    }
+
+    .contact-container h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    .contact-info {
+      font-size: 1.1rem;
+      color: #444;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input, textarea {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #3498db;
+      color: #fff;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .note, .success-message {
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .success-message {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="contact-container">
+    <h1>İletişim</h1>
+
+    <p class="contact-info">
+      E-posta: <a href="mailto:uzcirci255@gmail.com">uzcirci255@gmail.com</a><br />
+      Telefon: <a href="tel:+905551234567">0 (555) 123 45 67</a>
+    </p>
+
+    <form action="/iletisim" method="POST">
+      <input type="text" name="isim" placeholder="Adınız Soyadınız" required />
+      <input type="email" name="email" placeholder="E-posta adresiniz" required />
+      <textarea name="mesaj" placeholder="Mesajınız" rows="5" required></textarea>
+      <button type="submit">Mesaj Gönder</button>
+    </form>
+
+    <% if (gonderildi) { %>
+      <p class="success-message">Mesajınız başarıyla gönderildi. Teşekkür ederiz.</p>
+    <% } %>
+
+    <p class="note">Mesajınıza en kısa sürede geri dönüş yapılacaktır.</p>
+  </div>
+
+  <%- include('partials/footer') %>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Kargo Geçmişi Düzenle</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      margin: 2rem;
+      color: #333;
+    }
+
+    h1 {
+      color: #1e40af;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #2563eb;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    .btn-back {
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: 500;
+    }
+
+    .btn-back:hover {
+      text-decoration: underline;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kargo Geçmişi Düzenle</h1>
+
+  <div class="form-container">
+    <% if (hata) { %>
+      <p class="error"><%= hata %></p>
+    <% } %>
+
+    <form action="/admin/gecmis-duzenle/<%= gecmis.id %>" method="POST">
+      <label for="takip_no">Takip Numarası</label>
+      <input type="text" id="takip_no" name="takip_no" value="<%= gecmis.takip_no %>" required />
+
+      <label for="konum">Konum</label>
+      <input type="text" id="konum" name="konum" value="<%= gecmis.konum %>" required />
+
+      <label for="aciklama">Açıklama</label>
+      <input type="text" id="aciklama" name="aciklama" value="<%= gecmis.aciklama %>" required />
+
+      <label for="tarih">Tarih</label>
+      <input type="date" id="tarih" name="tarih"
+             value="<%= gecmis.tarih ? new Date(gecmis.tarih).toISOString().slice(0, 10) : '' %>" required />
+
+      <label for="saat">Saat</label>
+      <input type="time" id="saat" name="saat"
+             value="<%= gecmis.saat ? gecmis.saat : '' %>" required />
+
+      <button type="submit">Kaydet</button>
+    </form>
+
+    <a href="/admin/gecmis-liste" class="btn-back">← Geri Dön</a>
+  </div>
+  
+</body>
+</html>

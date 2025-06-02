@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Kargo Düzenle</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      margin: 2rem;
+      color: #333;
+    }
+
+    h1 {
+      color: #1e40af;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #2563eb;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    .btn-back {
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: 500;
+    }
+
+    .btn-back:hover {
+      text-decoration: underline;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kargo Düzenle</h1>
+
+  <div class="form-container">
+    <% if (hata) { %>
+      <p class="error"><%= hata %></p>
+    <% } %>
+
+    <form action="/admin/kargolar/duzenle/<%= kargo.id %>" method="POST">
+      <label for="takip_no">Takip Numarası</label>
+      <input type="text" id="takip_no" name="takip_no" value="<%= kargo.takip_no %>" required />
+
+      <label for="gonderen">Gönderen</label>
+      <input type="text" id="gonderen" name="gonderen" value="<%= kargo.gonderen %>" required />
+
+      <label for="alici">Alıcı</label>
+      <input type="text" id="alici" name="alici" value="<%= kargo.alici %>" required />
+
+      <label for="durum">Durum</label>
+      <select id="durum" name="durum" required>
+        <option value="Hazırlanıyor" <%= kargo.durum === 'Hazırlanıyor' ? 'selected' : '' %>>Hazırlanıyor</option>
+        <option value="Yolda" <%= kargo.durum === 'Yolda' ? 'selected' : '' %>>Yolda</option>
+        <option value="Dağıtımda" <%= kargo.durum === 'Dağıtımda' ? 'selected' : '' %>>Dağıtımda</option>
+        <option value="Teslim Edildi" <%= kargo.durum === 'Teslim Edildi' ? 'selected' : '' %>>Teslim Edildi</option>
+      </select>
+
+      <label for="tarih">Tarih</label>
+      <input type="datetime-local" id="tarih" name="tarih"
+             value="<%= kargo.tarih ? new Date(kargo.tarih).toISOString().slice(0,16) : '' %>" required />
+
+      <button type="submit">Kaydet</button>
+    </form>
+
+    <a href="/admin/kargolar" class="btn-back">← Geri Dön</a>
+  </div>
+  
+</body>
+</html>

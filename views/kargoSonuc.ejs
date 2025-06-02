@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Kargo Bilgisi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 1.5rem;
+    }
+
+    .kargo-kart, .gecmis-kart {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 1.5rem;
+    }
+
+    .kargo-kart p, .gecmis-item {
+      margin: 0.6rem 0;
+      font-size: 1.05rem;
+    }
+
+    .etiket {
+      display: inline-block;
+      padding: 0.4rem 0.8rem;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: white;
+    }
+
+    .hazir { background-color: #3498db; }
+    .yolda { background-color: #f1c40f; }
+    .dagitimda { background-color: #e67e22; }
+    .teslim { background-color: #2ecc71; }
+
+    .buton {
+      margin-top: 2rem;
+      padding: 0.8rem 1.5rem;
+      background-color: #34495e;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .buton:hover {
+      background-color: #2c3e50;
+    }
+
+    .kopyala-btn {
+      margin-left: 10px;
+      font-size: 0.85rem;
+      background: #3498db;
+      color: white;
+      padding: 0.3rem 0.6rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .gecmis-item {
+      padding: 0.6rem;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .gecmis-item:last-child {
+      border-bottom: none;
+    }
+
+    .gecmis-item small {
+      display: block;
+      color: #777;
+      margin-top: 0.2rem;
+    }
+
+    /* Progress tracker stil */
+    .progress-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+      max-width: 600px;
+      width: 100%;
+      position: relative;
+      gap: 10px;
+    }
+
+    .step {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    .step .circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      z-index: 1;
+    }
+
+    .step.completed .circle {
+      background-color: #2ecc71;
+    }
+
+    .step .label {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      word-break: break-word;
+    }
+
+    .step::after {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      height: 4px;
+      background-color: #ccc;
+      z-index: 0;
+      width: 100%;
+    }
+
+    .step.completed::after {
+      background-color: #2ecc71;
+    }
+
+    .step:last-child::after {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .progress-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .step {
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .step .label {
+        margin-top: 0;
+        margin-left: 10px;
+        font-size: 0.9rem;
+      }
+
+      .step::after {
+        content: '';
+        position: absolute;
+        left: 14px;
+        top: 28px;
+        width: 4px;
+        height: calc(100% - 28px);
+        background-color: #ccc;
+        z-index: 0;
+      }
+
+      .step.completed::after {
+        background-color: #2ecc71;
+      }
+
+      .step:last-child::after {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Kargo Bilgileri</h1>
+
+  <div class="kargo-kart">
+    <p>
+      <strong>Takip No:</strong> 
+      <span id="takipNo"><%= kargo.takip_no %></span>
+      <button class="kopyala-btn" onclick="kopyala()">Kopyala</button>
+    </p>
+    <p><strong>Gönderen:</strong> <%= kargo.gonderen %></p>
+    <p><strong>Alıcı:</strong> <%= kargo.alici %></p>
+    <p>
+      <strong>Durum:</strong> 
+      <% 
+        const durum = kargo.durum.toLowerCase(); 
+        let className = '';
+        if (durum.includes('teslim')) className = 'teslim';
+        else if (durum.includes('dağıtım')) className = 'dagitimda';
+        else if (durum.includes('yolda')) className = 'yolda';
+        else className = 'hazir';
+      %>
+      <span class="etiket <%= className %>"><%= kargo.durum %></span>
+    </p>
+
+    
+    <div class="progress-container">
+      <% 
+        const steps = ['hazırlandı', 'yolda', 'şubede', 'teslim edildi'];
+        const currentStatus = durum;
+        function getStepIndex(status) {
+          status = status.toLowerCase();
+          if (status.includes('teslim')) return 3;
+          else if (status.includes('dağıtım') || status.includes('şube')) return 2;
+          else if (status.includes('yolda')) return 1;
+          else return 0;
+        }
+        const currentStep = getStepIndex(currentStatus);
+      %>
+
+      <% steps.forEach((step, i) => { %>
+        <div class="step <%= i <= currentStep ? 'completed' : '' %>">
+          <div class="circle">
+            <% if(i <= currentStep) { %>
+              &#10003;
+            <% } else { %>
+              <%= i + 1 %>
+            <% } %>
+          </div>
+          <div class="label">
+            <%= step.charAt(0).toUpperCase() + step.slice(1) %>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
+    <p>
+      <strong>Tarih:</strong>
+      <% if (kargo.tarih) { %>
+        <%= new Date(kargo.tarih).toLocaleDateString('tr-TR', {
+          day: 'numeric', month: 'long', year: 'numeric'
+        }) %>
+      <% } else { %>
+        Bilgi yok
+      <% } %>
+    </p>
+  </div>
+
+  <% if (gecmisi && gecmisi.length > 0) { %>
+  <div class="gecmis-kart">
+    <h2>Kargo Geçmişi</h2>
+    <% gecmisi.forEach(item => { %>
+      <div class="gecmis-item">
+        <strong><%= item.aciklama %></strong><br>
+        <small>
+          <small>
+          <%= new Date(item.tarih).toLocaleDateString('tr-TR') %> 
+          <%= item.saat %> - <%= item.konum %>
+        </small>
+          <%= item.konum %>
+        </small>
+      </div>
+    <% }) %>
+  </div>
+  <% } %>
+
+  <a href="/" class="buton">Ana Sayfaya Dön</a>
+
+  <script>
+    function kopyala() {
+      const takipNo = document.getElementById("takipNo").textContent;
+      navigator.clipboard.writeText(takipNo).then(() => {
+        alert("Takip numarası kopyalandı!");
+      });
+    }
+  </script>
+<%- include('partials/footer') %>
+
+</body>
+</html>

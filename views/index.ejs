@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kargo Takip Sistemi</title>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #f1f4f9, #dff1ff);
+      margin: 0;
+      padding: 0;
+    }
+
+    .admin-link {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 999;
+    }
+
+    .admin-link a {
+      padding: 10px 16px;
+      background-color: #6c757d;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    .admin-link a:hover {
+      background-color: #5a6268;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 100px auto 30px auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      font-weight: 600;
+      color: #333;
+      display: block;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    input[type='text'] {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+
+    input[type='text']:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .uyari {
+      background-color: #ffcdd2;
+      color: #b71c1c;
+      padding: 12px;
+      border: 1px solid #e57373;
+      border-radius: 5px;
+      margin-top: 15px;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .basari {
+      background-color: #c8e6c9;
+      color: #2e7d32;
+      padding: 12px;
+      border: 1px solid #81c784;
+      border-radius: 5px;
+      margin-top: 15px;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        margin: 40px 20px;
+      }
+
+      .admin-link {
+        top: 10px;
+        right: 10px;
+      }
+
+      .admin-link a {
+        font-size: 12px;
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-link">
+    <a href="/admin">🛠 Admin Paneli</a>
+  </div>
+
+  <div class="container">
+    <h1>Uzçirci Kargo</h1>
+
+    <% if (hata) { %>
+      <div class="uyari"><%= hata %></div>
+    <% } %>
+
+    <% if (basari) { %>
+      <div class="basari">✅ Kargo geçmişi başarıyla eklendi.</div>
+    <% } %>
+
+    <form id="kargoForm" action="/kargo-sorgula" method="POST" novalidate>
+      <label for="kargoNo">Kargo Takip Numarası</label>
+      <input
+        type="text"
+        id="kargoNo"
+        name="takip_no"
+        maxlength="11"
+        placeholder="Örn: 12345678901"
+        required
+      />
+      <button type="submit">Sorgula</button>
+    </form>
+
+    <div id="js-uyari" class="uyari" style="display: none;"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('kargoForm');
+    const uyari = document.getElementById('js-uyari');
+
+    form.addEventListener('submit', function (e) {
+      const takipNo = document.getElementById('kargoNo').value.trim();
+
+      if (takipNo === '') {
+        e.preventDefault();
+        uyari.textContent = 'Lütfen takip numarasını girin.';
+        uyari.style.display = 'block';
+      } else if (!/^\d{11}$/.test(takipNo)) {
+        e.preventDefault();
+        uyari.textContent =
+          'Takip numarası 11 haneli ve sadece rakamlardan oluşmalıdır.';
+        uyari.style.display = 'block';
+      } else {
+        uyari.style.display = 'none';
+      }
+    });
+  </script>
+  <%- include('partials/footer') %>
+  
+</body>
+</html>

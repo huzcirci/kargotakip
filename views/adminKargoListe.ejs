@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin - Kargo Listesi</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      margin: 2rem;
+      color: #333;
+    }
+
+    h1 {
+      color: #1e40af;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .top-buttons {
+      display: flex;
+      justify-content: flex-start; 
+      margin-bottom: 20px;
+    }
+
+    a.btn {
+      background-color: #2563eb;
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    a.btn:hover {
+      background-color: #1e40af;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+    }
+
+    thead tr {
+      background-color: #2563eb;
+      color: white;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    tbody tr:hover {
+      background-color: #f1f5f9;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    td {
+      vertical-align: middle;
+    }
+
+    tbody tr td[colspan="7"] {
+      text-align: center;
+      padding: 40px 0;
+      font-style: italic;
+      color: #666;
+    }
+
+    td.actions a {
+      margin-right: 10px;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    td.actions a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      thead {
+        display: none;
+      }
+      tr {
+        margin-bottom: 15px;
+        background: #fff;
+        padding: 10px;
+        border-radius: 6px;
+        box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+      }
+      td {
+        border: none;
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 10px;
+      }
+      td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        flex-basis: 50%;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Admin Panel - Kargo Listesi</h1>
+
+  <div class="top-buttons">
+    <a href="/admin" class="btn">← Admin Paneline Dön</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Takip No</th>
+        <th>Gönderen</th>
+        <th>Alıcı</th>
+        <th>Durum</th>
+        <th>Tarih</th>
+        <th>İşlemler</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (kargolar.length === 0) { %>
+        <tr><td colspan="7">Kayıt bulunamadı.</td></tr>
+      <% } else { %>
+        <% kargolar.forEach(kargo => { %>
+          <tr>
+            <td data-label="ID"><%= kargo.id %></td>
+            <td data-label="Takip No"><%= kargo.takip_no %></td>
+            <td data-label="Gönderen"><%= kargo.gonderen %></td>
+            <td data-label="Alıcı"><%= kargo.alici %></td>
+            <td data-label="Durum"><%= kargo.durum %></td>
+            <td data-label="Tarih"><%= kargo.tarih ? new Date(kargo.tarih).toLocaleString('tr-TR') : '' %></td>
+            <td data-label="İşlemler" class="actions">
+              <a href="/admin/kargolar/duzenle/<%= kargo.id %>">Düzenle</a>
+              <a href="/admin/kargolar/sil/<%= kargo.id %>" onclick="return confirm('Bu kargoyu silmek istediğine emin misin?');">Sil</a>
+            </td>
+          </tr>
+        <% }) %>
+      <% } %>
+    </tbody>
+  </table>
+  
+</body>
+</html>

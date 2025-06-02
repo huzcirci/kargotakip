@@ -1,0 +1,105 @@
+/* Genel stil ayarları */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f4f4;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+}
+
+/* Başlık */
+h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 40px;
+}
+
+/* Form stilleri */
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Buton */
+button,
+a.buton {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #2980b9;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover,
+a.buton:hover {
+  background: #1f6391;
+}
+
+/* Yönlendirme butonları */
+.yonlendirme {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.yonlendirme a.buton {
+  display: inline-block;
+  margin: 5px;
+}
+
+/* Hata mesajı */
+.hata {
+  text-align: center;
+  color: #c0392b;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+/* Kargo sonucu kartı */
+.kargo-kart {
+  max-width: 500px;
+  margin: 0 auto;
+  background: #ecf0f1;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 18px;
+}
+
+.kargo-kart p {
+  margin: 10px 0;
+}
+
+/* Tekli butonları ortalamak için (kargo sonucunda kullanılıyor) */
+a.buton {
+  display: block;
+  text-align: center;
+  margin: 30px auto 0;
+  width: 200px;
+}
+
+
+
+
+
